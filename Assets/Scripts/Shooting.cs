@@ -20,8 +20,8 @@ public class Shooting : MonoBehaviour
 
     private void FireProjectile()
     {
-        Rigidbody projectileInstance = Instantiate(projectilePrefab, weaponTip.position, weaponTip.rotation);
+        Rigidbody projectileInstance = Instantiate( projectilePrefab, weaponTip.position, weaponTip.rotation );
 
-        projectileInstance.AddForce(weaponTip.forward * launchForce, ForceMode.Impulse);
+        projectileInstance.AddForce( weaponTip.forward * launchForce, ForceMode.Impulse );
     }
 }
