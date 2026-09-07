@@ -210,8 +210,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.10842291, y: 0.20585531, z: -0.022683648, w: 0.9722929}
-  m_LocalPosition: {x: -42.76405, y: 14.691431, z: -77.98915}
+  m_LocalRotation: {x: -0.0906785, y: -0.0108599365, z: 0.0010364214, w: -0.99582046}
+  m_LocalPosition: {x: -25.133848, y: 12.764554, z: -53.49209}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -414,7 +414,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7626362251941683853, guid: 24cf0924b1577124da805a9b8a69c9fc, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -33
+      value: -21.3
       objectReference: {fileID: 0}
     - target: {fileID: 7626362251941683853, guid: 24cf0924b1577124da805a9b8a69c9fc, type: 3}
       propertyPath: m_LocalPosition.y
@@ -422,7 +422,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7626362251941683853, guid: 24cf0924b1577124da805a9b8a69c9fc, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -60.6
+      value: -32.9
       objectReference: {fileID: 0}
     - target: {fileID: 7626362251941683853, guid: 24cf0924b1577124da805a9b8a69c9fc, type: 3}
       propertyPath: m_LocalRotation.w
@@ -879,7 +879,7 @@ Transform:
   m_GameObject: {fileID: 1540844586}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -16.75768, y: 4.80456, z: -80.07058}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -899,9 +899,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Shooting
   projectilePrefab: {fileID: 3348474717787583503, guid: eb26b89126c89c447b21632284f74281, type: 3}
   weaponTip: {fileID: 83306973}
-  launchForce: 40
-  fireCooldown: 0.5
-  allowLeftMouseButton: 1
+  launchForce: 600
+  fireCooldown: 0.3
+  WeaponTipEffect: {fileID: 1754666607840971718, guid: 88ccbe2f0e51bca418d500b8c7bb265d, type: 3}
+  WeaponTipEffectLifeTime: 1
 --- !u!1001 &1657970296
 PrefabInstance:
   m_ObjectHideFlags: 0
