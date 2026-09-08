@@ -12,7 +12,7 @@ public class AircraftController : MonoBehaviour
 
     private Vector3 startSpacing = new Vector3( 15f, 0f, 0f );
 
-    private void Start()
+    public void StartGame()
     {
         SpawnAircraftList();
     }

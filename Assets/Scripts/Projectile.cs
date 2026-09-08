@@ -3,9 +3,9 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-    [SerializeField] private float maximumLifetime = 10f;
-    [SerializeField] private bool destroyOnImpact = true;
-    [SerializeField] private float destructionDelay = 0f;
+    [SerializeField] private float maximumLifetime;
+    [SerializeField] private bool destroyOnImpact;
+    [SerializeField] private float destructionDelay;
     [SerializeField] private GameObject impactEffectPrefab;
 
     private bool hasCollided;
@@ -26,13 +26,18 @@ public class Projectile : MonoBehaviour
 
         Debug.Log( gameObject.name + " hit " + collision.gameObject.name );
 
-        Transform Aircraft = collision.transform.root;
+        GameObject aircraft = collision.transform.root.gameObject;
 
-        if (Aircraft.CompareTag("AircraftPrefab"))
+        if( aircraft.CompareTag("AircraftPrefab") )
         {
-            Destroy(Aircraft.gameObject);
-            Destroy(gameObject);
+            hasCollided = true;
+            ContactPoint contact = collision.GetContact(0);
+
+            Instantiate( impactEffectPrefab, contact.point, Quaternion.LookRotation(contact.normal) );
         }
+
+        Destroy(aircraft);
+        Destroy(gameObject);
 
         if (destroyOnImpact)
         {
