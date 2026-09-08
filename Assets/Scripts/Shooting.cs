@@ -9,12 +9,13 @@ public class Shooting : MonoBehaviour
     [SerializeField] private float fireCooldown;
     [SerializeField] private GameObject WeaponTipEffect;
     [SerializeField] private float WeaponTipEffectLifeTime;
+    [SerializeField] private bool allowFire;
 
     private float nextFireTime;
 
     private void Update()
     {
-        if ( Input.GetKeyDown(KeyCode.Space) && Time.time >= nextFireTime )
+        if ( Input.GetKeyDown(KeyCode.Space) && Time.time >= nextFireTime && allowFire )
         {
             FireProjectile();
             nextFireTime = Time.time + fireCooldown;
@@ -36,5 +37,10 @@ public class Shooting : MonoBehaviour
             GameObject effectInstance = Instantiate(WeaponTipEffect, weaponTip.position, weaponTip.rotation);
             Destroy(effectInstance, WeaponTipEffectLifeTime);
         }
+    }
+
+    public void AllowFireEnable()
+    {
+        allowFire = true;
     }
 }
