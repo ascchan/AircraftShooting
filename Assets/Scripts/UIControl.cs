@@ -15,6 +15,7 @@ public class UIControl : MonoBehaviour
     void Start()
     {
         ConfirmUsername(usernameInput.text.Trim());
+        //ConfirmUsername(usernameInput.text);
 
         usernameInput.onValueChanged.AddListener(ConfirmUsername);
     }
@@ -41,6 +42,5 @@ public class UIControl : MonoBehaviour
     {
         usernameInput.onValueChanged.RemoveListener(ConfirmUsername);
     }
-
 
 }

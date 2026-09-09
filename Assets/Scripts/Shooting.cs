@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Shooting : MonoBehaviour
 {
@@ -9,22 +10,35 @@ public class Shooting : MonoBehaviour
     [SerializeField] private float fireCooldown;
     [SerializeField] private GameObject WeaponTipEffect;
     [SerializeField] private float WeaponTipEffectLifeTime;
-    [SerializeField] private bool allowFire;
+    public bool allowFire;
+
+    [SerializeField] private AircraftController aircraftController;
 
     private float nextFireTime;
 
+    private bool controllerErrorReported;
+ 
     private void Update()
     {
         if ( Input.GetKeyDown(KeyCode.Space) && Time.time >= nextFireTime && allowFire )
-        {
+        {     
+            if (!aircraftController.IsFireActive)
+            {
+                return;
+            }
+
             FireProjectile();
             nextFireTime = Time.time + fireCooldown;
         }
+
     }
 
     private void FireProjectile()
     {
         Rigidbody projectileInstance = Instantiate( projectilePrefab, weaponTip.position, weaponTip.rotation );
+        
+        aircraftController.NotifyShotFired();
+
         projectileInstance.AddForce( weaponTip.forward * launchForce, ForceMode.VelocityChange );
 
         CreateWeaponTipEffect();
