@@ -8,6 +8,8 @@ using UnityEngine.UI;
 public class AircraftController : MonoBehaviour
 {
     [SerializeField] private Aircraft aircraftPrefab;
+    [SerializeField] private GameObject antiAircraftGun;
+    [SerializeField] private GameObject UICTRL;
 
     [SerializeField] private Transform aircraftStartPos;
     [SerializeField] private int aircraftCount;
@@ -16,6 +18,7 @@ public class AircraftController : MonoBehaviour
 
     [SerializeField] private TMP_Text timerText;
     [SerializeField] private TMP_Text remainingAircraftText;
+    [SerializeField] private TMP_Text inputInstructions;
 
     [SerializeField] private GameObject fireCompletePanel;
     [SerializeField] private UnityEvent onFireFinished = new UnityEvent();
@@ -35,6 +38,7 @@ public class AircraftController : MonoBehaviour
 
     private bool isGameStarted = false;
     private bool isGameFinished = false;
+    private string username;
 
     public int RemainingAircraft => aircraftList.Count;
 
@@ -108,6 +112,9 @@ public class AircraftController : MonoBehaviour
 
     public void NotifyShotFired()
     {
+        if(!timerRunning)
+            inputInstructions.enabled = false;
+
         if (!fireStarted || timerRunning || fireFinished)
             return;
 
@@ -118,6 +125,7 @@ public class AircraftController : MonoBehaviour
         firstShotTime = Time.timeAsDouble;
         elapsedTime = 0;
         timerRunning = true;
+
         ClockTimeDisplay();
     }
 
@@ -164,11 +172,12 @@ public class AircraftController : MonoBehaviour
         if (remainingAircraftText != null)
             remainingAircraftText.text = $"Aircraft remaining: {RemainingAircraft}";
 
+        username = UICTRL.GetComponent<UIControl>().GetUsername();
         long hundredths = (long)(elapsedTime * 100.0);
         long minutes = hundredths / 6000;
         long seconds = (hundredths / 100) % 60;
         long fraction = hundredths % 100;
-        string label = fireFinished ? "Final time" : "Time";
+        string label = fireFinished ? username + ", you completed the mission in" : "Time";
 
         timerText.text = $"{label}: {minutes:00}:{seconds:00}.{fraction:00}";
     }
@@ -181,6 +190,7 @@ public class AircraftController : MonoBehaviour
     public void FreezePlayer()
     {
         aircraftPrefab.enabled = false;
+        antiAircraftGun.SetActive(false);
 
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;

@@ -10,6 +10,7 @@ public class Shooting : MonoBehaviour
     [SerializeField] private float fireCooldown;
     [SerializeField] private GameObject WeaponTipEffect;
     [SerializeField] private float WeaponTipEffectLifeTime;
+
     public bool allowFire;
 
     [SerializeField] private AircraftController aircraftController;

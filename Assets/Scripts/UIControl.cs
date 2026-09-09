@@ -9,7 +9,7 @@ public class UIControl : MonoBehaviour
     [SerializeField] private TMP_Text userAndTime;
    // [SerializeField] private TMP_Text enterUsernameRemind;
 
-    private string username;
+    protected string username;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -43,4 +43,8 @@ public class UIControl : MonoBehaviour
         usernameInput.onValueChanged.RemoveListener(ConfirmUsername);
     }
 
+    public string GetUsername()
+    {
+        return usernameInput.text.Trim();
+    }
 }
