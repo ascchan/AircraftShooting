@@ -24,6 +24,10 @@ public class AircraftController : MonoBehaviour
     [SerializeField] private UnityEvent onFireFinished = new UnityEvent();
     [SerializeField] private Button restartButton;
     [SerializeField] private Button quitButton;
+    [SerializeField] private Button yesBtn; 
+    [SerializeField] private TMP_Text storeRCDText;
+
+
     [SerializeField] private Shooting shooting;
 
     public bool IsFireActive => fireStarted && !fireFinished && aircraftList.Count > 0;
@@ -153,6 +157,8 @@ public class AircraftController : MonoBehaviour
                 {
                     quitButton.gameObject.SetActive(true);
                     restartButton.gameObject.SetActive(true);
+                    yesBtn.gameObject.SetActive(true);
+                    storeRCDText.gameObject.SetActive(true);
                 }
 
                 if (EventSystem.current != null)
@@ -184,6 +190,7 @@ public class AircraftController : MonoBehaviour
 
     public void GameOver()
     {
+        Time.timeScale = 0f;
         FreezePlayer();
     }
 

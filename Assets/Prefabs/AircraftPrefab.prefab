@@ -73,7 +73,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dca4abe442a1fb7418a98937c9c34937, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Aircraft
-  speed: 15
+  speed: 18
   turnSpeed: 0.5
   minFloorAltitude: 15
   groundClearance: 20
