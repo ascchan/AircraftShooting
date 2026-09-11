@@ -66,7 +66,8 @@ public class RcdKpgControl : MonoBehaviour
                 yield break;
 
             if( player == userName )
-                bestTimeOnDatabase = TryReadTime( token, out float time ) ? time : float.PositiveInfinity;
+                bestTimeOnDatabase = TryReadTime( token, out float time ) 
+                                        ? time : float.PositiveInfinity;
             Debug.Log( "The recorded time of the current user is: " + bestTimeOnDatabase );
         }
     }
@@ -115,10 +116,12 @@ public class RcdKpgControl : MonoBehaviour
             ScoreRcd record = new ScoreRcd
             {
                 completionTime = completionTime,
-
-                date = DateTime.UtcNow.ToString()
+                date = DateTime.UtcNow.ToString( "yyyy-MM-dd" )
             };
-            using( UnityWebRequest put = UnityWebRequest.Put(url, JsonConvert.SerializeObject( record )) )
+            using( UnityWebRequest put = UnityWebRequest.Put(
+                                            url, 
+                                            JsonConvert.SerializeObject( record )) 
+                                         )
             {
                 put.timeout = 20;
                 put.SetRequestHeader( "Content-Type", "application/json" );
@@ -138,7 +141,7 @@ public class RcdKpgControl : MonoBehaviour
 
     public void DisplayRcdKpg()
     {
-        if(scoreEntryPrefab == null || contentParent == null )
+        if( scoreEntryPrefab == null || contentParent == null )
         {
             Debug.Log( "Assign Score Entry Prefab and Content Parent on Record Panel are null" );
             return;
@@ -179,8 +182,8 @@ public class RcdKpgControl : MonoBehaviour
                         {
                             rcdKpgName = player.Name,
                             completionTime = time,
-                            rcdedDate = dateToken?.Type == JTokenType.String ? 
-                                dateToken.Value<string>() : ""
+                            rcdedDate = dateToken?.Type == JTokenType.String
+                                ? dateToken.Value<string>() : ""
                         }
                     );
                 }
@@ -230,7 +233,7 @@ public class RcdKpgControl : MonoBehaviour
         ) && ValidTime(time);
     }
 
-    private bool TryParseJson(string json, out JToken token)
+    private bool TryParseJson( string json, out JToken token )
     {
         token = null;
         if( json != null && json.Trim() == "null" )
@@ -263,7 +266,7 @@ public class RcdKpgControl : MonoBehaviour
         => time > 0 && !float.IsNaN( time ) && !float.IsInfinity( time );
 
     private static string UserUrl( string player )
-        => ApiUrl + "scores/" + UnityWebRequest.EscapeURL(player) + ".json";
+        => ApiUrl + "scores/" + UnityWebRequest.EscapeURL( player ) + ".json";
 
     private static string FormatDate( string date )
     {
@@ -274,7 +277,7 @@ public class RcdKpgControl : MonoBehaviour
             CultureInfo.InvariantCulture,
             DateTimeStyles.AssumeUniversal, 
             out DateTimeOffset parsed
-        ) ? parsed.UtcDateTime.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture) : date;
+        ) ? parsed.UtcDateTime.ToString( "yyyy-MM-dd" ) : date;
     }
 }
 

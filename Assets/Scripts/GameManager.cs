@@ -146,6 +146,11 @@ public class GameManager : MonoBehaviour
     {
         Time.timeScale = 0f;
         FreezePlayer();
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+    Application.Quit();
+#endif
     }
 
     public void FreezePlayer()
