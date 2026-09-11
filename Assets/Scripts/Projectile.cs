@@ -12,12 +12,12 @@ public class Projectile : MonoBehaviour
 
     private void Start()
     {
-        Destroy(gameObject, maximumLifetime);
+        Destroy( gameObject, maximumLifetime );
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnCollisionEnter( Collision collision )
     {
-        if (hasCollided)
+        if( hasCollided )
         {
             return;
         }
@@ -39,9 +39,9 @@ public class Projectile : MonoBehaviour
         Destroy(aircraft);
         Destroy(gameObject);
 
-        if (destroyOnImpact)
+        if( destroyOnImpact )
         {
-            Destroy(gameObject, destructionDelay);
+            Destroy( gameObject, destructionDelay );
         }
     }
 }

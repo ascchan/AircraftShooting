@@ -10,6 +10,7 @@ public class Shooting : MonoBehaviour
     [SerializeField] private float fireCooldown;
     [SerializeField] private GameObject WeaponTipEffect;
     [SerializeField] private float WeaponTipEffectLifeTime;
+    [SerializeField] private GameManager gameManager;
 
     public bool allowFire;
 
@@ -38,7 +39,7 @@ public class Shooting : MonoBehaviour
     {
         Rigidbody projectileInstance = Instantiate( projectilePrefab, weaponTip.position, weaponTip.rotation );
         
-        aircraftController.NotifyShotFired();
+        gameManager.NotifyShotFired();
 
         projectileInstance.AddForce( weaponTip.forward * launchForce, ForceMode.VelocityChange );
 

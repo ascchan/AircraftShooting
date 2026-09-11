@@ -32,7 +32,7 @@ public class Aircraft : MonoBehaviour
         nextPosTimer = Random.Range(0f, posChangeInterval);
     }
 
-    public void CheckAircraftList(List<Aircraft> aircraftList)
+    public void CheckAircraftList( List<Aircraft> aircraftList )
     {
         checkAircraftList = aircraftList;
     }
@@ -47,7 +47,7 @@ public class Aircraft : MonoBehaviour
     private void HandleNextPosTimer()
     {
         nextPosTimer += Time.deltaTime;
-        if ( nextPosTimer >= posChangeInterval )
+        if( nextPosTimer >= posChangeInterval )
         {
             PickNewRandomNextPos();
             nextPosTimer = 0f;
@@ -56,13 +56,22 @@ public class Aircraft : MonoBehaviour
 
     private void PickNewRandomNextPos()
     {
-        float minY = Mathf.Max(boundsCenter.y - boundsSize.y * 0.5f, minFloorAltitude + 5f);
+        float minY = Mathf.Max(
+            boundsCenter.y - boundsSize.y * 0.5f, 
+            minFloorAltitude + 5f
+        );
         float maxY = boundsCenter.y + boundsSize.y * 0.5f;
 
         randomNextPos = new Vector3(
-            Random.Range(boundsCenter.x - boundsSize.x * 0.5f, boundsCenter.x + boundsSize.x * 0.5f),
-            Random.Range(minY, maxY),
-            Random.Range(boundsCenter.z - boundsSize.z * 0.5f, boundsCenter.z + boundsSize.z * 0.5f)
+            Random.Range( 
+                boundsCenter.x - boundsSize.x * 0.5f, 
+                boundsCenter.x + boundsSize.x * 0.5f 
+            ),
+            Random.Range( minY, maxY ),
+            Random.Range( 
+                boundsCenter.z - boundsSize.z * 0.5f, 
+                boundsCenter.z + boundsSize.z * 0.5f 
+            )
         );
     }
 
@@ -70,7 +79,7 @@ public class Aircraft : MonoBehaviour
     {
         Vector3 desiredDirection = ( randomNextPos - transform.position ).normalized;
 
-        if ( !IsWithinBounds(transform.position) )
+        if( !IsWithinBounds(transform.position) )
         {
             desiredDirection = ( boundsCenter - transform.position ).normalized * 2f;
         }
@@ -83,8 +92,14 @@ public class Aircraft : MonoBehaviour
 
         if ( desiredDirection != Vector3.zero )
         {
-            Quaternion targetRotation = Quaternion.LookRotation( desiredDirection.normalized );
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, turnSpeed * Time.deltaTime);
+            Quaternion targetRotation = Quaternion.LookRotation( 
+                                            desiredDirection.normalized 
+                                        );
+            transform.rotation = Quaternion.Slerp( 
+                                    transform.rotation, 
+                                    targetRotation, 
+                                    turnSpeed * Time.deltaTime 
+                                 );
         }
 
         transform.Translate( Vector3.forward * (speed * Time.deltaTime), Space.Self );
@@ -96,14 +111,20 @@ public class Aircraft : MonoBehaviour
 
         Vector3 sensorDirection = ( transform.forward + Vector3.down * 0.5f ).normalized;
 
-        if ( Physics.Raycast(transform.position, sensorDirection, out RaycastHit ground, groundCheckDistance, groundLayer) )
+        if( Physics.Raycast(
+                transform.position, 
+                sensorDirection, 
+                out RaycastHit ground, 
+                groundCheckDistance, 
+                groundLayer
+            ) )
         {
             float groundDist = ground.distance;
 
             float prior = 1f - Mathf.Clamp01( groundDist / groundCheckDistance );
             upForce = Vector3.up * prior;
         }
-        else if ( transform.position.y < minFloorAltitude + groundClearance )
+        else if( transform.position.y < minFloorAltitude + groundClearance )
         {
             float underAltitude = ( minFloorAltitude + groundClearance ) - transform.position.y;
             upForce = Vector3.up * ( underAltitude / groundClearance );
@@ -114,15 +135,19 @@ public class Aircraft : MonoBehaviour
 
     private void FlyAboveGround()
     {
-        if ( transform.position.y < minFloorAltitude )
+        if( transform.position.y < minFloorAltitude )
         {
             Vector3 aboveGroundPos = transform.position;
             aboveGroundPos.y = minFloorAltitude;
             transform.position = aboveGroundPos;
 
-            if ( transform.forward.y < 0 )
+            if( transform.forward.y < 0 )
             {
-                Vector3 moveForward = new Vector3( transform.forward.x, 0.1f, transform.forward.z ).normalized;
+                Vector3 moveForward = new Vector3( 
+                    transform.forward.x, 
+                    0.1f, transform.forward.z 
+                ).normalized;
+                
                 transform.rotation = Quaternion.LookRotation( moveForward );
             }
         }
@@ -135,7 +160,8 @@ public class Aircraft : MonoBehaviour
     //
     private Vector3 ComputeCollisionAvoidance()
     {
-        if ( checkAircraftList == null ) return Vector3.zero;
+        if( checkAircraftList == null ) 
+            return Vector3.zero;
 
         Vector3 push = Vector3.zero;
         int nearbyCount = 0;
@@ -148,7 +174,7 @@ public class Aircraft : MonoBehaviour
             Vector3 diff = transform.position - other.transform.position;
             float dist = diff.magnitude;
 
-            if ( dist < avoidanceRadius && dist > 0.001f )
+            if( dist < avoidanceRadius && dist > 0.001f )
             {
                 push += ( diff / (dist * dist) );
                 nearbyCount++;
@@ -158,7 +184,7 @@ public class Aircraft : MonoBehaviour
         return nearbyCount > 0 ? push.normalized : Vector3.zero;
     }
 
-    private bool IsWithinBounds(Vector3 pos)
+    private bool IsWithinBounds( Vector3 pos )
     {
         Vector3 min = boundsCenter - boundsSize * 0.5f;
         Vector3 max = boundsCenter + boundsSize * 0.5f;
@@ -170,10 +196,15 @@ public class Aircraft : MonoBehaviour
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.yellow;
-        Vector3 sensorDir = (transform.forward + Vector3.down * 0.5f).normalized;
-        Gizmos.DrawRay(transform.position, sensorDir * groundCheckDistance);
+        Vector3 sensorDir = ( transform.forward + Vector3.down * 0.5f ).normalized;
+        Gizmos.DrawRay( transform.position, sensorDir * groundCheckDistance );
 
         Gizmos.color = new Color(1f, 0f, 0f, 0.3f);
-        Gizmos.DrawCube( new Vector3(transform.position.x, minFloorAltitude, transform.position.z), new Vector3(30f, 0.2f, 30f) );
+        Gizmos.DrawCube( new Vector3(
+            transform.position.x, 
+            minFloorAltitude, 
+            transform.position.z), 
+            new Vector3( 30f, 0.2f, 30f ) 
+        );
     }
 }

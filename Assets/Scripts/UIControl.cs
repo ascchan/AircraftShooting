@@ -7,20 +7,16 @@ public class UIControl : MonoBehaviour
     [SerializeField] private TMP_InputField usernameInput;
     [SerializeField] private Button startButton;
     [SerializeField] private TMP_Text userAndTime;
-   // [SerializeField] private TMP_Text enterUsernameRemind;
 
     protected string username;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         ConfirmUsername(usernameInput.text.Trim());
-        //ConfirmUsername(usernameInput.text);
 
         usernameInput.onValueChanged.AddListener(ConfirmUsername);
     }
 
-    // Update is called once per frame
     void Update()
     {
         ConfirmUsername(usernameInput.text.Trim());
